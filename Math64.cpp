@@ -134,6 +134,12 @@ f64 cos64(f64 z)
     return z;
 }
 
+f64 tan64(f64 z)
+{
+    z = sin64(z)/cos64(z);
+    return z;
+}
+
 f64 asin64(f64 z)
 {
   // Complex BigNumbers not implemented
