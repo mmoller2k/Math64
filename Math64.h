@@ -18,5 +18,11 @@ f64 acos64(f64 z);
 f64 atan264(f64 y, f64 x);
 f64 fact64(int16_t n);
 f64 abs64(f64 z);
+f64 cosh64(f64 z);
+f64 sinh64(f64 z);
+f64 tanh64(f64 z);
+f64 acosh64(f64 z);
+f64 asinh64(f64 z);
+f64 atanh64(f64 z);
 
 f64 sqrt64(f64 z);

@@ -271,3 +271,32 @@ f64 sqrt64(f64 z)
 {
   return exp64(log64(z)/f64(2));
 }
+
+f64 sinh64(f64 z)
+{
+  return (exp64(z) - exp64(-z))/f64(2);
+}
+
+f64 cosh64(f64 z)
+{
+  return (exp64(z) + exp64(-z))/f64(2);
+}
+
+f64 tanh64(f64 z)
+{
+  return sinh64(z)/cosh64(z);
+}
+
+f64 asinh64(f64 z)
+{
+  return log64(z+sqrt64(z*z+f64(1)));
+}
+f64 acosh64(f64 z)
+{
+  return log64(z+sqrt64(z*z-f64(1)));
+}
+f64 atanh64(f64 z)
+{
+  return log64((f64(1)+z)/(f64(1)-z))/f64(2);
+}
+
