@@ -2,7 +2,7 @@
 #include <Float64.h>
 
 extern const f64 pio2;
-#define pi (pio2*2.0)
+#define pi (pio2*f64(2))
 
 /* basic functions */
 f64 sin64(f64 x);
