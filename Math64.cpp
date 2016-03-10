@@ -215,7 +215,7 @@ f64 log64(f64 z) //modified taylor series - better convergence
   int16_t i;
 
   if(z==1)return 0;
-  if(z<=0)return z.NaN();
+  if(z<=0)return z.setNaN();
 
   // range reduction (0<z<1)
   if(z>1){
@@ -245,7 +245,7 @@ f64 log64(f64 z) //Newton's method - very fast
   bool m = false;
 
   if(z==1)return 0;
-  if(z<=0)return z.NaN();
+  if(z<=0)return v.setNaN();
 
   // range reduction (0<z<1)
   if(z>1){
@@ -269,6 +269,8 @@ f64 log64(f64 z) //Newton's method - very fast
 
 f64 sqrt64(f64 z)
 {
+  f64 result;
+  if(z<f64(0))return result.setNaN();
   return exp64(log64(z)/f64(2));
 }
 
