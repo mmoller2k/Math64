@@ -12,6 +12,7 @@ f64 sin64(f64 z)
   int16_t i,j;
   bool m = false; // m= false => z positive, m= true => z negative)
   
+  if(z.isNaN())return z;
   if (z < f64(0)) {
     m = true;
     z = -z;
@@ -30,7 +31,7 @@ f64 sin64(f64 z)
     j=i-1;
     e /= f64(i*j);
     e *= s;
-    if (e == 0) {
+    if (e.isZero()) {
       if (m) return -v;
       return v;
     }
@@ -45,6 +46,8 @@ f64 atan64(f64 z)
   f64 rootThree = sqrt64(3);
   int16_t i;
   
+  if(z.isNaN()) return z;
+
   // negative z
   if (z<0) {
     m = true;
@@ -89,7 +92,7 @@ f64 atan64(f64 z)
   for (i=3;;i+=2) {
     n *= s;
     e = n/f64(i);
-    if (e == 0) {
+    if (e.isZero()) {
       if(m) return (-(f*pio2/f64(3))+v);
       return f*pio2/f64(3)+v;
     }
@@ -99,10 +102,12 @@ f64 atan64(f64 z)
 
 f64 exp64(f64 z)
 {
-  int16_t n=0;
+  int64_t n=0;
   f64 v,e;
   f64 f=f64(1);
-  int16_t i;
+  int64_t i;
+
+  if(z.isNaN())return z;
 
   // range reduction to (-16,inf)
   if(z<-800)return 0; //too small
@@ -118,7 +123,7 @@ f64 exp64(f64 z)
   e = 1;
   for (i=1;;i++) {
     e *= z/f64(i);
-    if (e == f64(0)) {
+    if(e.isZero()){
       for(i=0;i<n;i++){
 	v *= f;
       }
@@ -142,9 +147,9 @@ f64 tan64(f64 z)
 
 f64 asin64(f64 z)
 {
-  // Complex BigNumbers not implemented
-  if(z>1) return 0;
-  if(z<-1) return 0;
+  // Complex numbers not implemented
+  if((z>1) || (z<-1)) return z.setNaN();
+
   // Special cases
   if(z==1) return pio2;
   if(z==-1) return pio2*f64(-1);
@@ -162,9 +167,9 @@ f64 acos64(f64 z)
 f64 atan264(f64 y, f64 x)
 {
   // Special cases
-  if(y==0 && x==0) return 0; // undefined
-  if(x==0 && y==0) return pio2*f64(-1);
-  if(x==0 && y>0) return pio2;	
+  if(y.isZero() && x.isZero()) return 0; // undefined
+  if(x.isZero() && y<0) return pio2*f64(-1);
+  if(x.isZero() && y>0) return pio2;	
   if(y<0 && x<0) return atan64(y/x)-pio2*f64(2);
   if(x<0) return atan64(y/x)+pio2*f64(2); // y>=zero
 
@@ -245,7 +250,7 @@ f64 log64(f64 z) //Newton's method - very fast
   bool m = false;
 
   if(z==1)return 0;
-  if(z<=0)return v.setNaN();
+  if(z<=0 || z.isNaN())return v.setNaN();
 
   // range reduction (0<z<1)
   if(z>1){
@@ -270,7 +275,7 @@ f64 log64(f64 z) //Newton's method - very fast
 f64 sqrt64(f64 z)
 {
   f64 result;
-  if(z<f64(0))return result.setNaN();
+  if(z<f64(0) || z.isNaN())return result.setNaN();
   return exp64(log64(z)/f64(2));
 }
 
