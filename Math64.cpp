@@ -250,7 +250,7 @@ f64 log64(f64 z) //Newton's method - very fast
   bool m = false;
 
   if(z==1)return 0;
-  if(z.isNegative() || z.isNaN())return v.setNaN();
+  if(z.isZero() || z.isNegative() || z.isNaN())return z.setNaN();
 
   // range reduction (0<z<1)
   if(z>1){
@@ -262,7 +262,7 @@ f64 log64(f64 z) //Newton's method - very fast
   e = f64(0);
   for (;;) {
     e = (z-exp64(v)) / (z+exp64(v));
-    if(e>=0){ /* stop error oscillating around answer */
+    if(!e.isNegative()){ /* stop error oscillating around answer */
       if(m)return -v;
       return v;
     }
