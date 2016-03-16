@@ -13,7 +13,7 @@ f64 sin64(f64 z)
   bool m = false; // m= false => z positive, m= true => z negative)
   
   if(z.isNaN())return z;
-  if (z < f64(0)) {
+  if (z.isNegative()) {
     m = true;
     z = -z;
   }
@@ -49,7 +49,7 @@ f64 atan64(f64 z)
   if(z.isNaN()) return z;
 
   // negative z
-  if (z<0) {
+  if (z.isNegative()) {
     m = true;
     z = -z;
   }
@@ -168,10 +168,10 @@ f64 atan264(f64 y, f64 x)
 {
   // Special cases
   if(y.isZero() && x.isZero()) return 0; // undefined
-  if(x.isZero() && y<0) return pio2*f64(-1);
-  if(x.isZero() && y>0) return pio2;	
-  if(y<0 && x<0) return atan64(y/x)-pio2*f64(2);
-  if(x<0) return atan64(y/x)+pio2*f64(2); // y>=zero
+  if(x.isZero() && y.isNegative()) return pio2*f64(-1);
+  if(x.isZero() && !y.isNegative()) return pio2;	
+  if(y.isNegative() && x.isNegative()) return atan64(y/x)-pio2*f64(2);
+  if(x.isNegative()) return atan64(y/x)+pio2*f64(2); // y>=zero
 
   return atan64(y/x); // x>zero
 }
@@ -188,7 +188,7 @@ f64 fact64(int16_t n)
 
 f64 abs64(f64 z)
 {
-  if(z<0)return -z;
+  if(z.isNegative())return -z;
   return z;
 }
 
@@ -220,7 +220,7 @@ f64 log64(f64 z) //modified taylor series - better convergence
   int16_t i;
 
   if(z==1)return 0;
-  if(z<=0)return z.setNaN();
+  if(z.isNegative() || z.isZero())return z.setNaN();
 
   // range reduction (0<z<1)
   if(z>1){
@@ -250,7 +250,7 @@ f64 log64(f64 z) //Newton's method - very fast
   bool m = false;
 
   if(z==1)return 0;
-  if(z<=0 || z.isNaN())return v.setNaN();
+  if(z.isNegative() || z.isNaN())return v.setNaN();
 
   // range reduction (0<z<1)
   if(z>1){
@@ -275,7 +275,7 @@ f64 log64(f64 z) //Newton's method - very fast
 f64 sqrt64(f64 z)
 {
   f64 result;
-  if(z<f64(0) || z.isNaN())return result.setNaN();
+  if(z.isNegative() || z.isNaN())return result.setNaN();
   return exp64(log64(z)/f64(2));
 }
 
