@@ -102,19 +102,18 @@ f64 atan64(f64 z)
 
 f64 exp64(f64 z)
 {
-  int64_t n=0;
+  int i,n=0;
   f64 v,e;
-  f64 f=f64(1);
-  int64_t i;
+  f64 f=f64(0x3e7e3139, 0xb54f3b84); //e^-16
 
   if(z.isNaN())return z;
+  if(z.isZero())return 1;
 
-  // range reduction to (-16,inf)
   if(z<-800)return 0; //too small
+  // range reduction to (-16,inf)
   if(z<-16){
-    n = ((-z)/f64(16)).ipart();
-    z += f64(n)*f64(16);
-    f = exp64(-16);
+    n = -z.ipart()/16;
+    z += f64(n*16);
   }
   
   // taylor series
@@ -127,10 +126,11 @@ f64 exp64(f64 z)
       for(i=0;i<n;i++){
 	v *= f;
       }
-      return v;
+      break;
     }
     v += e;
   }
+  return v;
 }
 
 f64 cos64(f64 z)
