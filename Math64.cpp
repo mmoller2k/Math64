@@ -156,6 +156,8 @@ f64 asin64(f64 z)
 	
   z=z/sqrt64(f64(1)-z*z);
 	
+  if (z<0)
+    return -atan64(z);
   return atan64(z);
 }
 
@@ -172,7 +174,7 @@ f64 atan264(f64 y, f64 x)
   if(x.isZero() && !y.isNegative()) return pio2;	
   if(y.isNegative() && x.isNegative()) return atan64(y/x)-pio2*f64(2);
   if(x.isNegative()) return atan64(y/x)+pio2*f64(2); // y>=zero
-
+  if(y.isNegative() && !x.isNegative()) return -atan64(y/x);
   return atan64(y/x); // x>zero
 }
 
