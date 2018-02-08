@@ -156,6 +156,8 @@ f64 asin64(f64 z)
 	
   z=z/sqrt64(f64(1)-z*z);
 	
+  if (z<0)
+    return -atan64(z);
   return atan64(z);
 }
 
